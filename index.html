@@ -2,6 +2,14 @@
 <html>
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+      $(function() {
+        $("#submit").click(function() {
+          var sun = $("#sunday_timetable").val();
+          console.log(sun);
+        });
+      });
+    </script>
   </head>
   <body>
     <h1>Timetable time configuration</h1><br>
@@ -21,7 +29,8 @@
       <textarea id="friday_timetable"></textarea><br>
       <h2>Saturday</h2><br>
       <textarea id="saturday_timetable"></textarea><br>
-      For each text box, enter the timetable for that day. For a new line, write the character "\n".
+      For each text box, enter the timetable for that day. For a new line, write the character "\n".<br>
+      <button id="submit">Send options</button>
     </div>
   </body>
 </html>
