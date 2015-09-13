@@ -6,7 +6,25 @@
       $(function() {
         $("#submit").click(function() {
           var sun = $("#sunday_timetable").val();
-          console.log(sun);
+          var mon = $("#monday_timetable").val();
+          var tue = $("#tuesday_timetable").val();
+          var wed = $("#wednesday_timetable").val();
+          var thu = $("#thursday_timetable").val();
+          var fri = $("#friday_timetable").val();
+          var sat = $("#saturday_timetable").val();
+          
+          var options = {
+            "sun": sun,
+            "mon": mon,
+            "tue": tue,
+            "wed": wed,
+            "thu": thu,
+            "fri": fri,
+            "sat": sat
+          };
+          optionsToSend = encodeURIComponent(JSON.stringify(options));
+          
+          document.location = "pebblejs://close#" + optionsToSend;
         });
       });
     </script>
