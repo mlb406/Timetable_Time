@@ -1,0 +1,37 @@
+{
+    "appKeys": {
+        "KEY_FRI": 5,
+        "KEY_MON": 1,
+        "KEY_SAT": 6,
+        "KEY_SUN": 0,
+        "KEY_THU": 4,
+        "KEY_TUE": 2,
+        "KEY_WED": 3
+    },
+    "capabilities": [
+        "configurable"
+    ],
+    "companyName": "mlb406@gmail.com",
+    "longName": "Timetable time",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/pebble_background_template.png",
+                "name": "IMAGE_BACKGROUND",
+                "type": "png"
+            }
+        ]
+    },
+    "sdkVersion": "3",
+    "shortName": "Timetable",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
+    "uuid": "460bbd9f-4bf0-4fa5-988c-553c15e28339",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
