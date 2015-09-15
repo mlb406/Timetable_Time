@@ -13,7 +13,35 @@ Pebble.addEventListener('showConfiguration', function(e) {
 });
     
 Pebble.addEventListener('webviewclosed', function(e) {
-  var options = JSON.parse(decodeURIComponent(e.response));
+  //Get JSON dictionary
+  var configuration = JSON.parse(decodeURIComponent(e.response));
+  console.log("Configuration window returned: " + JSON.stringify(configuration));
+
+  // Create a dict to send to pebble
+  // new one to avoid possibilty of sending larger dict from web page
+  // also allows sanity checks/conversions if needed
+  var config_for_pebble = {
+    "KEY_SUN": configuration.sun,
+    "KEY_MON": configuration.mon,
+    "KEY_TUE": configuration.tue,
+    "KEY_WED": configuration.wed,
+    "KEY_THU": configuration.thu,
+    "KEY_FRI": configuration.fri,
+    "KEY_SAT": configuration.sat
+  };
+  console.log("Configuration for pebble: " + JSON.stringify(config_for_pebble));
+
+  //Send to Pebble, persist there     
+  Pebble.sendAppMessage(
+    config_for_pebble,
+    function(e) {
+      console.log("Sending settings data...");
+    },
+    function(e) {
+      console.log("Settings feedback failed!");
+    }
+  );
+  /*var options = JSON.parse(decodeURIComponent(e.response));
   console.log(JSON.stringify(options));
   console.log("Recieved settings!");
   var sun = options.sun;
@@ -39,4 +67,5 @@ Pebble.addEventListener('webviewclosed', function(e) {
   }, function(e) {
     console.log("Failed to send options!");
   });
+  */
 });

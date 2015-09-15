@@ -141,6 +141,40 @@ static void main_window_unload(Window *window) {
 
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Inbox recieved!");
+  Tuple *t = NULL;
+  
+  t = dict_read_first(iterator);
+  while(t != NULL)
+  {
+    switch(t->key)
+    {
+      case KEY_SUN:
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_SUN");
+        break;
+      case KEY_MON:
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_MON");  
+        break;
+      case KEY_TUE:
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_TUE");
+        break;      
+      case KEY_WED:
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_WED");
+        break;  
+      case KEY_THU:
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_THU");     
+        break;
+      case KEY_FRI:
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_FRI");
+        break;
+      case KEY_SAT:
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_SAT");
+      break;
+      default:
+        APP_LOG(APP_LOG_LEVEL_ERROR, "Unknown key! :-(");
+        break;
+    }
+    t = dict_read_next(iterator);
+  }
 }
 
 static void inbox_dropped_callback(AppMessageResult reason, void *context) {
