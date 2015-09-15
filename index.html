@@ -15,16 +15,36 @@
     <script>
       $(function() {
         $("#submit").click(function() {
+          
           var sun = $("#sunday_timetable").val();
           if (sun.length > 64) {
-            sun = getNewTimetable("Sunday")
+            sun = getNewTimetable("Sunday");
           }
+          
           var mon = $("#monday_timetable").val();
+          if (mon.length > 64) {
+            mon = getNewTimetable("Monday");
+          }
           var tue = $("#tuesday_timetable").val();
+          if (tue.length > 64) {
+            tue = getNewTimetable("Tuesday");
+          }
           var wed = $("#wednesday_timetable").val();
+          if (wed.length > 64) {
+            wed = getNewTimetable("Wednesday");
+          }
           var thu = $("#thursday_timetable").val();
+          if (thu.length > 64) {
+            thu = getNewTimetable("Thursday");
+          }
           var fri = $("#friday_timetable").val();
+          if (fri.length > 64) {
+            fri = getNewTimetable("Friday");
+          }
           var sat = $("#saturday_timetable").val();
+          if (sat.length > 64) {
+            sat = getNewTimetable("Saturday");
+          }
           
           var options = {
             "sun": sun,
