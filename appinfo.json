@@ -3,6 +3,7 @@
         "KEY_FRI": 5,
         "KEY_MON": 1,
         "KEY_SAT": 6,
+        "KEY_SHAKE_TOMORROW": 7,
         "KEY_SUN": 0,
         "KEY_THU": 4,
         "KEY_TUE": 2,

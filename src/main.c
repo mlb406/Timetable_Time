@@ -1,4 +1,7 @@
 #include <pebble.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 
 #define KEY_SUN 0
 #define KEY_MON 1
@@ -7,12 +10,16 @@
 #define KEY_THU 4
 #define KEY_FRI 5
 #define KEY_SAT 6
-
+//#define KEY_SHAKE_TOMORROW 7
+  
 static Window *window;
 static TextLayer *text_layer, *date_layer, *timetable_layer, *battery_layer;
 static BitmapLayer *background_layer;
 static GBitmap *background_bitmap;
 static int battery_level;
+
+//static bool shake_tomorrow = true;
+static char sun[64], mon[64], tue[64], wed[64], thu[64], fri[64], sat[64];
 
 static void battery_callback(BatteryChargeState state) {
   battery_level = state.charge_percent;
@@ -48,41 +55,100 @@ static void update_time() {
   
   strftime(day, sizeof("1"), "%w", tick_time);
   
-  //static char sun_buffer[64];
+  static char sun_buffer[64], mon_buffer[64], tue_buffer[64], wed_buffer[64], thu_buffer[64], fri_buffer[64], sat_buffer[64];
   
-  //if (persist_read_string(KEY_SUN, sun_buffer, sizeof(sun_buffer))) {
-  int d = atoi(day);
-  switch(d) {
-    case 0 :
-      text_layer_set_text(timetable_layer, "Sunday!\nNo school!");
-       break;
-    case 1 :
-      text_layer_set_text(timetable_layer, "Mo1\nPh05Ge37Fr37Co26En11\nMo2\nBi16Ge33Fr33Co26En11");
-      break;
-    case 2 :
-      text_layer_set_text(timetable_layer, "Tu1\nMa02PE00En11EP30Gg19\nMo2\nMa02Fr37PE00EP30Gg19");
-      break;
-    case 3 :
-      text_layer_set_text(timetable_layer, "We1\nCo26Bi17Fr37Gg19En11\nWe2\nEn11Ch14Ge33Co26Ph05");
-      break;
-    case 4 :
-      text_layer_set_text(timetable_layer, "Th1\nBi18En11Ma02Ge37PE00\nTh2\nFr37EP30Ma02Ge37PE00");
-      break;
-    case 5 :
-      text_layer_set_text(timetable_layer, "Fr1\nCo26En11Gg19Ma02Ch14\nFr2\nPh05En11Gg19Ch14Ma02");
-      break;
-    case 6 :
-      text_layer_set_text(timetable_layer, "Saturday!\nNo school!");
-      break;
-    default :
-      text_layer_set_text(timetable_layer, "Something went wrong,\nplease try again later");
+  
+  if (persist_read_string(KEY_SUN, sun_buffer, sizeof(sun_buffer))) {
+    int d = atoi(day);
+    switch(d) {
+      case 0 :
+        persist_read_string(KEY_SUN, sun_buffer, sizeof(sun_buffer));
+        text_layer_set_text(timetable_layer, sun_buffer);
+        break;
+      case 1 :
+        persist_read_string(KEY_MON, mon_buffer, sizeof(mon_buffer));
+        text_layer_set_text(timetable_layer, mon_buffer);
+        break;
+      case 2 :
+        persist_read_string(KEY_TUE, tue_buffer, sizeof(tue_buffer));
+        text_layer_set_text(timetable_layer, tue_buffer);
+        break;
+      case 3 :
+        persist_read_string(KEY_WED, wed_buffer, sizeof(wed_buffer));
+        text_layer_set_text(timetable_layer, wed_buffer);
+        break;
+      case 4 :
+        persist_read_string(KEY_THU, thu_buffer, sizeof(thu_buffer));
+        text_layer_set_text(timetable_layer, thu_buffer);
+        break;
+      case 5 :
+        persist_read_string(KEY_FRI, fri_buffer, sizeof(fri_buffer));
+        text_layer_set_text(timetable_layer, fri_buffer);
+        break;
+      case 6 :
+        persist_read_string(KEY_SAT, sat_buffer, sizeof(sat_buffer));
+        text_layer_set_text(timetable_layer, sat_buffer);
+        break;
+      default :
+        text_layer_set_text(timetable_layer, "Something went wrong,\nplease try again later");
+    }
+  } else {
+    text_layer_set_text(timetable_layer, "Please add a timetable\n\n:-(");
   }
-  
   
   
   
 }
 
+/*static void accel_tap_handler(AccelAxisType axis, int32_t direction) {
+  time_t temp = time(NULL);
+  struct tm *tick_time = localtime(&temp);
+  
+  static char day_buffer[] = "1";
+  
+  strftime(day_buffer, sizeof("1"), "%w", tick_time); 
+  
+  static char sun_buffer[64], mon_buffer[64], tue_buffer[64], wed_buffer[64], thu_buffer[64], fri_buffer[64], sat_buffer[64];
+  
+  if (persist_read_string(KEY_SUN, sun_buffer, sizeof(sun_buffer))) {
+    int d = atoi(day_buffer);
+    switch(d) {
+      case 6 :
+        persist_read_string(KEY_SUN, sun_buffer, sizeof(sun_buffer));
+        text_layer_set_text(timetable_layer, sun_buffer);
+        break;
+      case 0 :
+        persist_read_string(KEY_MON, mon_buffer, sizeof(mon_buffer));
+        text_layer_set_text(timetable_layer, mon_buffer);
+        break;
+      case 1 :
+        persist_read_string(KEY_TUE, tue_buffer, sizeof(tue_buffer));
+        text_layer_set_text(timetable_layer, tue_buffer);
+        break;
+      case 2 :
+        persist_read_string(KEY_WED, wed_buffer, sizeof(wed_buffer));
+        text_layer_set_text(timetable_layer, wed_buffer);
+        break;
+      case 3 :
+        persist_read_string(KEY_THU, thu_buffer, sizeof(thu_buffer));
+        text_layer_set_text(timetable_layer, thu_buffer);
+        break;
+      case 4 :
+        persist_read_string(KEY_FRI, fri_buffer, sizeof(fri_buffer));
+        text_layer_set_text(timetable_layer, fri_buffer);
+        break;
+      case 5 :
+        persist_read_string(KEY_SAT, sat_buffer, sizeof(sat_buffer));
+        text_layer_set_text(timetable_layer, sat_buffer);
+        break;
+      default :
+        text_layer_set_text(timetable_layer, "Something went wrong,\nplease try again later");
+    }
+    tick_timer_service_unsubscribe();
+    Delay(3000);
+  }
+}
+*/
 
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
@@ -142,6 +208,13 @@ static void main_window_unload(Window *window) {
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Inbox recieved!");
   Tuple *t = NULL;
+  Tuple *sunday_t = dict_find(iterator, KEY_SUN);
+  Tuple *monday_t = dict_find(iterator, KEY_MON);
+  Tuple *tuesday_t = dict_find(iterator, KEY_TUE);
+  Tuple *wednesday_t = dict_find(iterator, KEY_WED);
+  Tuple *thursday_t = dict_find(iterator, KEY_THU);
+  Tuple *friday_t = dict_find(iterator, KEY_FRI);
+  Tuple *saturday_t = dict_find(iterator, KEY_SAT);
   
   t = dict_read_first(iterator);
   while(t != NULL)
@@ -150,24 +223,39 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     {
       case KEY_SUN:
         APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_SUN");
+        snprintf(sun, sizeof(sun), sunday_t->value->cstring, sunday_t->value->cstring);
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "Written %s", sun);
+        persist_write_string(KEY_SUN, sun);
         break;
       case KEY_MON:
         APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_MON");  
+        snprintf(mon, sizeof(mon), monday_t->value->cstring, monday_t->value->cstring);
+        persist_write_string(KEY_MON, mon);
         break;
       case KEY_TUE:
         APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_TUE");
+        snprintf(tue, sizeof(tue), tuesday_t->value->cstring, tuesday_t->value->cstring);
+        persist_write_string(KEY_TUE, tue);
         break;      
       case KEY_WED:
         APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_WED");
+        snprintf(wed, sizeof(wed), wednesday_t->value->cstring, wednesday_t->value->cstring);
+        persist_write_string(KEY_WED, wed);
         break;  
       case KEY_THU:
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_THU");     
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_THU");
+        snprintf(thu, sizeof(thu), thursday_t->value->cstring, thursday_t->value->cstring);
+        persist_write_string(KEY_THU, thu);
         break;
       case KEY_FRI:
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_FRI");
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_FRI");  
+        snprintf(fri, sizeof(fri), friday_t->value->cstring, friday_t->value->cstring);
+        persist_write_string(KEY_FRI, fri);
         break;
       case KEY_SAT:
         APP_LOG(APP_LOG_LEVEL_DEBUG, "got KEY_SAT");
+        snprintf(sat, sizeof(sat), saturday_t->value->cstring, saturday_t->value->cstring);
+        persist_write_string(KEY_SAT, sat);
       break;
       default:
         APP_LOG(APP_LOG_LEVEL_ERROR, "Unknown key! :-(");
@@ -214,6 +302,7 @@ static void init() {
   
   update_time();
   
+  app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
   
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised window!");
 }
