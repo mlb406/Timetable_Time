@@ -14,6 +14,16 @@
     </script>
     <script>
       $(function() {
+        if (localStorage.getItem(1)) {
+          var o = JSON.parse(localStorage.getItem(1));
+          $("#sunday_timetable").val(o.sun);
+          $("#monday_timetable").val(o.mon);
+          $("#tuesday_timetable").val(o.tue);
+          $("#wednesday_timetable").val(o.wed);
+          $("#thursday_timetable").val(o.thu);
+          $("#friday_timetable").val(o.fri);
+          $("#saturday_timetable").val(o.sat);
+        }
         
         $("#submit").click(function() {
           
