@@ -14,36 +14,61 @@
     </script>
     <script>
       $(function() {
+        
         $("#submit").click(function() {
+          
+          optionsArr = new Array();
           
           var sun = $("#sunday_timetable").val();
           if (sun.length > 64) {
             sun = getNewTimetable("Sunday");
           }
+          optionsArr[0] = sun;
           
           var mon = $("#monday_timetable").val();
           if (mon.length > 64) {
             mon = getNewTimetable("Monday");
           }
+          optionsArr[1] = mon;
+          
           var tue = $("#tuesday_timetable").val();
           if (tue.length > 64) {
             tue = getNewTimetable("Tuesday");
           }
+          optionsArr[2] = tue;
+          
           var wed = $("#wednesday_timetable").val();
           if (wed.length > 64) {
             wed = getNewTimetable("Wednesday");
           }
+          optionsArr[3] = wed;
+          
           var thu = $("#thursday_timetable").val();
           if (thu.length > 64) {
             thu = getNewTimetable("Thursday");
           }
+          optionsArr[4] = thu;
+          
           var fri = $("#friday_timetable").val();
           if (fri.length > 64) {
             fri = getNewTimetable("Friday");
           }
+          optionsArr[5] = fri;
+          
           var sat = $("#saturday_timetable").val();
           if (sat.length > 64) {
             sat = getNewTimetable("Saturday");
+          }
+          optionsArr[6] = sat;
+          
+          for (var i = 0; i > 7; i++) {
+            if (optionsArr[i] === null || undefined || "") {
+              if (confirm("Some values not set. Continue?") === true) {
+                optionsArr[i] = "Not set\n\n:-(";
+              }
+            } else {
+              optionsArr[i] = 
+            }
           }
           
           var options = {
@@ -55,6 +80,7 @@
             "fri": fri,
             "sat": sat
           };
+          
           optionsToSend = encodeURIComponent(JSON.stringify(options));
           
           document.location = "pebblejs://close#" + optionsToSend;
