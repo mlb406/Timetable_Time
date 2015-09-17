@@ -2,9 +2,11 @@
 <html>
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" src="slate-master/dist/css/slate.css">
+    <script src="slate-master/dist/js/slate.js"></script>
     <script>
       function getNewTimetable(day) {
-        var x = prompt("The timetable for " + day + " is greater than 64. Please enter another.");
+        var x = prompt("The timetable for " + day + " is greater than 64 characters. Please enter another.");
         if (x.length > 64) {
           return getNewTimetable(day);
         } else {
