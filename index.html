@@ -67,19 +67,21 @@
                 optionsArr[i] = "Not set\n\n:-(";
               }
             } else {
-              optionsArr[i] = 
+              optionsArr[i] = optionsArr[i];
             }
           }
           
           var options = {
-            "sun": sun,
-            "mon": mon,
-            "tue": tue,
-            "wed": wed,
-            "thu": thu,
-            "fri": fri,
-            "sat": sat
+            "sun": optionsArr[0],
+            "mon": optionsArr[1],
+            "tue": optionsArr[2],
+            "wed": optionsArr[3],
+            "thu": optionsArr[4],
+            "fri": optionsArr[5],
+            "sat": optionsArr[6]
           };
+          
+          localStorage.setItem(1, JSON.stringify(options));
           
           optionsToSend = encodeURIComponent(JSON.stringify(options));
           
